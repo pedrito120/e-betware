@@ -13,7 +13,7 @@ const API_KEY_PROD = 'PROD123456';
       inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => {
         return {
-          entities: ['dist/**/*.entity{.ts,.js}'],
+          entities: ['src/**/*.entity{.ts,.js}'],
           type: 'postgres',
           url: configService.postgresUrl,
           synchronize: false,
