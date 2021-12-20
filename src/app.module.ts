@@ -8,6 +8,9 @@ import { enviroments } from 'src/enviroments';
 import { UsersModule } from './users/users.module';
 import config from './config';
 import * as Joi from 'joi';
+import { Client } from 'pg';
+import { AuthModule } from './auth/auth.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,15 +18,23 @@ import * as Joi from 'joi';
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
-        API_KEY: Joi.number().required(),
+        API_KEY: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
         DATABASE_PORT: Joi.number().required(),
+        DATABASE_URL: Joi.string().required(),
+        POSTGRES_DB: Joi.string().required(),
+        POSTGRES_USER: Joi.string().required(),
+        POSTGRES_PASSWORD: Joi.string().required(),
+        POSTGRES_PORT: Joi.number().required(),
+        POSTGRES_HOST: Joi.string().hostname().required(),
       }),
     }),
     HttpModule,
     UsersModule,
     BooksModule,
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

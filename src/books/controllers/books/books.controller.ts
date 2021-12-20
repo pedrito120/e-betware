@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Query,
   Param,
   Post,
   Body,
@@ -9,44 +8,50 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
-  Res,
   ParseIntPipe,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
-import { CreateBooksDto } from 'src/books/dtos/book.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import {
+  CreateBooksDto,
+  FilterBookDto,
+  UpdateBooksDto,
+} from 'src/books/dtos/book.dto';
 import { BooksService } from 'src/books/services/books/books.service';
 
+@ApiTags('Books')
 @Controller('books')
 export class BooksController {
   constructor(private service: BooksService) {}
+
+  @Public()
   @Get()
-  getAll() {
-    return this.service.findAll();
+  getAll(@Query() params: FilterBookDto) {
+    return this.service.findAll(params);
   }
 
-  @Get(':userId')
+  @Public()
+  @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getOne(@Param('userId', ParseIntPipe) userId: number) {
-    return this.service.findOne(userId);
-  }
-
-  @Get(':userId/borrowed')
-  @HttpCode(HttpStatus.ACCEPTED)
-  getBorrowedBooks(@Param('userId', ParseIntPipe) userId: number) {
-    return this.service.findOne(userId);
+  getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.service.findOne(id);
   }
 
   @Post()
   create(@Body() payload: CreateBooksDto) {
-    this.service.create(payload);
+    return this.service.create(payload);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() payload: any) {
+  update(@Param('id') id: number, @Body() payload: UpdateBooksDto) {
     return this.service.update(id, payload);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.service.remove(+id);
+  delete(@Param('id') id: number) {
+    return this.service.remove(id);
   }
 }

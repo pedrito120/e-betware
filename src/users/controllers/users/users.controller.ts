@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Query,
   Param,
   Post,
   Body,
@@ -9,12 +8,15 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
-  Res,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { UsersService } from '../../services/users/users.service';
-import { CreateUserDto } from '../../dtos/user.dto';
+import { CreateUserDto, UpdateUserDto } from '../../dtos/user.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private service: UsersService) {}
@@ -30,24 +32,18 @@ export class UsersController {
     return this.service.findOne(id);
   }
 
-  @Get(':id/borrowed')
-  @HttpCode(HttpStatus.ACCEPTED)
-  getBorrowedBooks(@Param('id', ParseIntPipe) id: number) {
-    return this.service.getOrderByUser(id);
-  }
-
   @Post()
   create(@Body() payload: CreateUserDto) {
-    this.service.create(payload);
+    return this.service.create(payload);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() payload: any) {
+  update(@Param('id') id: number, @Body() payload: UpdateUserDto) {
     return this.service.update(id, payload);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.service.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.service.remove(id);
   }
 }
