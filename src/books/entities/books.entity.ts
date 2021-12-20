@@ -17,7 +17,7 @@ export class Book {
   @Column({ type: 'varchar', length: 255 })
   title: string;
   @Column({ type: 'varchar', length: 255 })
-  publication: Date;
+  publication: string;
   @Column({ type: 'varchar' })
   synopsis: string;
   @CreateDateColumn({
