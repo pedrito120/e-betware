@@ -32,18 +32,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: 'TASKS',
-      useFactory: async (http: HttpService) => {
-        const tasks = await http
-          .get('https://jsonplaceholder.typicode.com/todos')
-          .toPromise();
-        return tasks.data;
-      },
-      inject: [HttpService],
-    },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}
