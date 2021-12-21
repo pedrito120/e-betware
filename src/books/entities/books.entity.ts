@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -8,6 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Category } from './category.entity';
+import { Exclude } from 'class-transformer';
 @Entity()
 export class Book {
   @PrimaryGeneratedColumn()

@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import { Book } from 'src/books/entities/books.entity';
 import {
   Column,
@@ -9,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Order } from './order.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class OrderBook {

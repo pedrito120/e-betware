@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -9,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Customer } from './customer.entity';
+import { Exclude } from 'class-transformer';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()

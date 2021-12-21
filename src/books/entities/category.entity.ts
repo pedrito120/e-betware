@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -7,6 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { Book } from './books.entity';
 @Entity()
 export class Category {
